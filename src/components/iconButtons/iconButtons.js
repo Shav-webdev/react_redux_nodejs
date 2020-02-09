@@ -1,0 +1,71 @@
+import React from "react";
+import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import {IconButton} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+
+export function SaveToDoBtn() {
+    const saveHandleClick = () => {
+        console.log(123)
+    };
+
+    return(
+        <IconButton
+            onClick={saveHandleClick}
+            edge="end"
+            aria-label="delete">
+            <SaveIcon />
+        </IconButton>
+    )
+
+}
+
+export function EditToDoBtn(props) {
+    const editHandleClick = () => {
+        props.onEditBtnClick();
+    };
+
+    return(
+        <IconButton
+            onClick={editHandleClick}
+            edge="start"
+            aria-label="edit">
+            <EditIcon />
+        </IconButton>
+    )
+
+}
+
+export function DeleteToDoBtn(props) {
+    const deleteHandleClick = () => {
+        props.onDeleteBtnClick();
+    };
+
+    return(
+        <IconButton
+            onClick={deleteHandleClick}
+            edge="end"
+            aria-label="delete">
+            <DeleteIcon />
+        </IconButton>
+    )
+}
+
+
+export function AddButton(props) {
+    const onBtnHandleClick = () => {
+        props.onAddBtnHandleClick();
+    };
+
+    return (
+        <Button onClick={onBtnHandleClick}
+            variant="contained"
+                color="primary"
+        >
+            Add
+            <AddIcon />
+        </Button>
+    )
+}
