@@ -1,15 +1,23 @@
-import React from 'react';
-import Input from '@material-ui/core/Input';
+import React, {useState} from 'react';
+import {TextField} from "@material-ui/core";
 
 export default function UpdateToDoField(props) {
+    const [helpText, setHelpText] = useState("");
+
     const onInputHandleChange = (e) => {
-        props.onEditToDoFieldHandleChange(e.target.value)
+        if (e.target.value.trim().length) {
+            setHelpText("");
+        } else {
+            setHelpText("This field is required.")
+        }
+        props.onEditToDoFieldHandleChange(e.target.value);
     };
 
     return (
-        <Input onChange={onInputHandleChange}
-               value={props.newToDoValue}
-               placeholder="New to do here"
-               inputProps={{'aria-label': 'description'}}/>
+        <TextField onChange={onInputHandleChange}
+                   value={props.newToDoValue}
+                   placeholder="New to do here"
+                   helperText={helpText}
+                   inputProps={{'aria-label': 'description'}}/>
     );
 }

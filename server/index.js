@@ -41,7 +41,6 @@ app.put('/api/todos/:id', jsonParser, function (req, res) {
             .find({})
             .then(data => data)
             .then(data => {
-                console.log(data);
                 res.json(data)
             })
             .catch(e => console.log(e))

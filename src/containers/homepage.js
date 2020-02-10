@@ -37,10 +37,6 @@ export default function HomePage() {
             .catch(e => console.log(e))
     };
 
-    const handleEditBtnClick = () => {
-
-    };
-
     const handleSaveBtnClick = (id) => {
         const toDosUrl = `/api/todos/${id}`;
         const putMethod = {
@@ -51,10 +47,13 @@ export default function HomePage() {
             body: JSON.stringify({_id: id, title: updatedToDo})
         };
 
-        fetch(toDosUrl, putMethod)
-            .then(res => res.json())
-            .then(data => setToDos(data))
-            .catch(e => console.log(e))
+        if (updatedToDo.trim().length) {
+            fetch(toDosUrl, putMethod)
+                .then(res => res.json())
+                .then(data => setToDos(data))
+                .catch(e => console.log(e))
+        }
+
 
     };
 
@@ -86,7 +85,6 @@ export default function HomePage() {
                                 <ToDoItem key={index}
                                           isList={true}
                                           toDoId={el._id}
-                                          handleEditBtnClick={handleEditBtnClick}
                                           onEditToDoFieldHandleChange={updateToDoField}
                                           handleDeleteBtnClick={handleDeleteBtnClick}
                                           handleSaveBtnClick={handleSaveBtnClick}>

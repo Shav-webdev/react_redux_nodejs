@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {ListItem, ListItemSecondaryAction, ListItemText, makeStyles} from "@material-ui/core";
-import {SaveToDoBtn, DeleteToDoBtn, EditToDoBtn} from "../iconButtons/iconButtons"
+import {SaveToDoBtn, DeleteToDoBtn, EditToDoBtn, BackToToDoBtn} from "../iconButtons/iconButtons"
 import UpdateToDoField from "../newToDoInputFild/updateToDoField";
 
 const useStyles = makeStyles({
@@ -16,10 +16,11 @@ const useStyles = makeStyles({
 
 export default function ToDoItem(props) {
     const [isShown, setIsShown] = useState(false);
+    const [isSaveBtnDisabled, setIsSaveBtnDisabled] = useState(true);
 
     const onEditBtnClick = (id) => {
         setIsShown(true);
-        props.handleEditBtnClick(id);
+        setIsSaveBtnDisabled(true);
     };
 
     const onDeleteBtnClick = (id) => {
@@ -29,10 +30,21 @@ export default function ToDoItem(props) {
     const onSaveBtnClick = (id) => {
         props.handleSaveBtnClick(id);
         setIsShown(false);
+
+    };
+
+    const onBackBtnClick = () => {
+        setIsShown(false);
     };
 
     const updateToDoHandleChange = (toDo) => {
-        props.onEditToDoFieldHandleChange(toDo)
+        props.onEditToDoFieldHandleChange(toDo);
+        if (toDo.trim().length) {
+            setIsSaveBtnDisabled(false);
+        } else {
+            setIsSaveBtnDisabled(true);
+        }
+
     };
 
 
@@ -47,7 +59,7 @@ export default function ToDoItem(props) {
                     </ListItemText>
                     {props.isList &&
                     <ListItemSecondaryAction>
-                        <EditToDoBtn onEditBtnClick={() => onEditBtnClick(props.toDoId)}/>
+                        <EditToDoBtn onEditBtnClick={onEditBtnClick}/>
                         <DeleteToDoBtn
                             toDoId={props.toDoId}
                             onDeleteBtnClick={onDeleteBtnClick}/>
@@ -55,10 +67,12 @@ export default function ToDoItem(props) {
                 </>
                 :
                 <>
-
                     <UpdateToDoField onEditToDoFieldHandleChange={updateToDoHandleChange}/>
                     <ListItemSecondaryAction>
+                        <BackToToDoBtn
+                            onBackBtnClick={onBackBtnClick}/>
                         <SaveToDoBtn
+                            isDisabled={isSaveBtnDisabled}
                             toDoId={props.toDoId}
                             onSaveBtnClick={() => onSaveBtnClick(props.toDoId)}/>
                     </ListItemSecondaryAction>
