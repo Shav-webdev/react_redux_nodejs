@@ -34,12 +34,16 @@ app.put('/api/todos/:id', jsonParser, function (req, res) {
     let id = req.params.id;
     let title = req.body.title.toString();
 
+
     ToDo.updateOne({_id: `${id}`}, {$set: {"title": `${title}`}}, function (err) {
         if (err) console.log(err);
         ToDo
             .find({})
             .then(data => data)
-            .then(data => res.json(data))
+            .then(data => {
+                console.log(data);
+                res.json(data)
+            })
             .catch(e => console.log(e))
     });
 

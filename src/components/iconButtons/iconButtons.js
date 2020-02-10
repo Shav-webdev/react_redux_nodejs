@@ -6,17 +6,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import {IconButton} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-export function SaveToDoBtn() {
+export function SaveToDoBtn(props) {
     const saveHandleClick = () => {
-        console.log(123)
+        props.onSaveBtnClick();
     };
 
-    return(
+    return (
         <IconButton
-            onClick={saveHandleClick}
+            onClick={() => saveHandleClick(props.toDoId)}
             edge="end"
-            aria-label="delete">
-            <SaveIcon />
+            aria-label="save">
+            <SaveIcon/>
         </IconButton>
     )
 
@@ -27,12 +27,12 @@ export function EditToDoBtn(props) {
         props.onEditBtnClick();
     };
 
-    return(
+    return (
         <IconButton
             onClick={editHandleClick}
             edge="start"
             aria-label="edit">
-            <EditIcon />
+            <EditIcon/>
         </IconButton>
     )
 
@@ -43,12 +43,12 @@ export function DeleteToDoBtn(props) {
         props.onDeleteBtnClick(id);
     };
 
-    return(
+    return (
         <IconButton
             onClick={() => deleteHandleClick(props.toDoId)}
             edge="end"
             aria-label="delete">
-            <DeleteIcon />
+            <DeleteIcon/>
         </IconButton>
     )
 }
@@ -61,11 +61,11 @@ export function AddButton(props) {
 
     return (
         <Button onClick={onBtnHandleClick}
-            variant="contained"
+                variant="contained"
                 color="primary"
         >
             Add
-            <AddIcon />
+            <AddIcon/>
         </Button>
     )
 }

@@ -4,19 +4,17 @@ import {Grid} from "@material-ui/core";
 import ToDoList from "../components/toDoList/toDoList";
 import ToDoItem from "../components/listItem/toDoItem";
 import {AddButton} from "../components/iconButtons/iconButtons";
-import {deleteData, getData, postData} from "./helpers";
+import {getData, postData} from "./helpers";
 
 
 export default function HomePage() {
     const [newToDo, setNewToDo] = useState("");
+    const [updatedToDo, setUpdatedToDo] = useState("");
     const [toDos, setToDos] = useState([]);
 
-    useEffect(() => {
-        getData().then(data => {
-            console.log(data)
-            setToDos(data)
-        })
 
+    useEffect(() => {
+        getData().then(data => setToDos(data))
     }, []);
 
     const onAddBtnHandleClick = () => {
@@ -30,10 +28,6 @@ export default function HomePage() {
         }
 
     };
-    const handleEditBtnClick = () => {
-        console.log(123)
-    };
-
     const handleDeleteBtnClick = (id) => {
         fetch('/api/todos/' + id, {
             method: 'DELETE',
@@ -43,12 +37,33 @@ export default function HomePage() {
             .catch(e => console.log(e))
     };
 
-    const handleSaveBtnClick = () => {
-        console.log(789)
+    const handleEditBtnClick = () => {
+
+    };
+
+    const handleSaveBtnClick = (id) => {
+        const toDosUrl = `/api/todos/${id}`;
+        const putMethod = {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify({_id: id, title: updatedToDo})
+        };
+
+        fetch(toDosUrl, putMethod)
+            .then(res => res.json())
+            .then(data => setToDos(data))
+            .catch(e => console.log(e))
+
     };
 
     const onNewToDoFieldHandleChange = useCallback((v) => {
         setNewToDo(v);
+    }, []);
+
+    const updateToDoField = useCallback((v) => {
+        setUpdatedToDo(v);
     }, []);
 
     return (
@@ -72,6 +87,7 @@ export default function HomePage() {
                                           isList={true}
                                           toDoId={el._id}
                                           handleEditBtnClick={handleEditBtnClick}
+                                          onEditToDoFieldHandleChange={updateToDoField}
                                           handleDeleteBtnClick={handleDeleteBtnClick}
                                           handleSaveBtnClick={handleSaveBtnClick}>
                                     {el.title}
