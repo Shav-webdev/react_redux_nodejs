@@ -6,12 +6,7 @@ const ToDoSchema = new Schema({
         type: String,
         required: true,
     },
-    id: {
-        type: Number,
-        required: true,
-        min: 0,
-    }
 });
 
-mongoose.model("ToDos", ToDoSchema)
+mongoose.model("ToDos", ToDoSchema);
 module.exports = ToDoSchema;

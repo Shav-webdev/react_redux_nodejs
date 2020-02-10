@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {ListItem, ListItemSecondaryAction, ListItemText, makeStyles} from "@material-ui/core";
 import {SaveToDoBtn, DeleteToDoBtn, EditToDoBtn} from "../iconButtons/iconButtons"
 
@@ -14,14 +14,18 @@ const useStyles = makeStyles({
 
 
 export default function ToDoItem(props) {
-    const classes = useStyles();
+    const [isShown, setIsShown] = useState(false);
+
     const onEditBtnClick = () => {
-        props.handleEditBtnClick()
+        props.handleEditBtnClick();
+        setIsShown(true)
+
     };
-    const onDeleteBtnClick = () => {
-        props.handleDeleteBtnClick()
+    const onDeleteBtnClick = (id) => {
+        props.handleDeleteBtnClick(id)
     };
 
+    const classes = useStyles();
     return (
         <ListItem className={classes.list}>
             <ListItemText>
@@ -30,10 +34,11 @@ export default function ToDoItem(props) {
             {props.isList &&
                 <ListItemSecondaryAction>
                     <EditToDoBtn onEditBtnClick={onEditBtnClick}/>
-                    <DeleteToDoBtn onDeleteBtnClick={onDeleteBtnClick}/>
+                    <DeleteToDoBtn
+                        toDoId={props.toDoId}
+                        onDeleteBtnClick={onDeleteBtnClick}/>
                 </ListItemSecondaryAction>
             }
-
         </ListItem>
     )
 }

@@ -39,13 +39,13 @@ export function EditToDoBtn(props) {
 }
 
 export function DeleteToDoBtn(props) {
-    const deleteHandleClick = () => {
-        props.onDeleteBtnClick();
+    const deleteHandleClick = (id) => {
+        props.onDeleteBtnClick(id);
     };
 
     return(
         <IconButton
-            onClick={deleteHandleClick}
+            onClick={() => deleteHandleClick(props.toDoId)}
             edge="end"
             aria-label="delete">
             <DeleteIcon />
