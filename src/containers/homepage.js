@@ -5,16 +5,19 @@ import ToDoList from "../components/toDoList/toDoList";
 import ToDoItem from "../components/listItem/toDoItem";
 import {AddButton} from "../components/iconButtons/iconButtons";
 import {getData, postData} from "./helpers";
+import {connect} from "react-redux";
+import {addTodo} from "../redux/actions";
+import {store} from "../redux/store";
 
 
-export default function HomePage() {
+function HomePage() {
     const [newToDo, setNewToDo] = useState("");
     const [updatedToDo, setUpdatedToDo] = useState("");
     const [toDos, setToDos] = useState([]);
 
 
     useEffect(() => {
-        getData().then(data => setToDos(data))
+        getData().then(data => store.dispatch(addTodo(data)))
     }, []);
 
     const onAddBtnHandleClick = () => {
@@ -22,6 +25,7 @@ export default function HomePage() {
         if (newToDo.trim().length) {
             postData('/api/todos', {toDo: newToDo})
                 .then(data => {
+                    console.log(data.toDos)
                     setToDos(data.toDos);
                 })
                 .catch(error => console.log(error.message));
@@ -102,3 +106,5 @@ export default function HomePage() {
         </>
     )
 }
+
+export default connect()(HomePage)
