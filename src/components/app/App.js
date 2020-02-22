@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Routes from "../../routes/routes";
-import {connect} from "react-redux";
 
 function App() {
     return (
@@ -11,4 +10,4 @@ function App() {
     );
 }
 
-export default connect()(App);
+export default (App);

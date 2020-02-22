@@ -2,18 +2,26 @@
  * action creators
  */
 
-import {ADD_TODO, REMOVE_TODO, SET_VISIBILITY_FILTER, UPDATE_TODO} from "./constants";
+import {NEW_TODO, REMOVE_TODO, SET_VISIBILITY_FILTER, UPDATE_TODO, GET_TODOS, LOADING} from "./constants";
 
-export function addTodo(text) {
-    return { type: ADD_TODO, text }
+export function loading(bool) {
+    return { type: LOADING, bool }
 }
 
-export function removeToDo(index) {
-    return { type: REMOVE_TODO, index }
+export function newTodo(todo) {
+    return { type: NEW_TODO, todo }
 }
 
-export function updateTodo(index) {
-    return { type: UPDATE_TODO, index }
+export function getTodos(todo) {
+    return { type: GET_TODOS, todo }
+}
+
+export function removeToDo(toDoId) {
+    return { type: REMOVE_TODO, toDoId }
+}
+
+export function updateTodo(toDoId) {
+    return { type: UPDATE_TODO, toDoId }
 }
 
 export function setVisibilityFilter(filter) {

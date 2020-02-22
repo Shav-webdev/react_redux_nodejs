@@ -1,25 +1,19 @@
 import { combineReducers } from 'redux'
 import {
-    ADD_TODO,
+    GET_TODOS,
+    NEW_TODO,
     REMOVE_TODO,
     UPDATE_TODO,
     SET_VISIBILITY_FILTER,
-    VisibilityFilters
+    VisibilityFilters, LOADING,
 } from './constants'
 
 const { SHOW_ALL } = VisibilityFilters;
 
 const initialState = {
-    toDos: [
-        {
-            id: "11",
-            title: "go to home"
-        },
-        {
-            id: "14",
-            title: "drink"
-        }
-    ]
+    loading: true,
+    newToDo: "",
+    toDos: []
 };
 
 function visibilityFilter(state = SHOW_ALL, action) {
@@ -33,34 +27,37 @@ function visibilityFilter(state = SHOW_ALL, action) {
 
 function todos(state = initialState, action) {
     switch (action.type) {
-        case ADD_TODO:
-            return Object.assign({}, state.toDos, {
-                id: 12,
-                title: "eat something"
-            });
-        case REMOVE_TODO:
-            return state.map((todo, index) => {
-                if (index === action.index) {
-                    return Object.assign({}, todo, {
-                        completed: !todo.completed
-                    })
-                }
-                return todo
-            });
+        case NEW_TODO:
+            return {
+                ...state,
+                newToDo: action.todo,
+                loading: false,
 
-        case UPDATE_TODO:
-            return state.map((todo, index) => {
-                if (index === action.index) {
-                    return Object.assign({}, todo, {
-                        completed: !todo.completed
-                    })
-                }
-                return todo
-            });
+            };
+        case GET_TODOS:
+            return {
+                ...state,
+                toDos: [...action.todo],
+                loading: false,
+            };
+        case REMOVE_TODO:
+            return {
+                ...state,
+                toDos: [...state.toDos.filter(el => el._id !== action.toDoId)],
+                loading: false
+            };
+        case LOADING:
+            return {
+                ...state,
+                loading: action.bool,
+            };
+        // case UPDATE_TODO:
+        //     return state;
         default:
-            return state
+            return state;
     }
 }
+
 const todoApp = combineReducers({
     visibilityFilter,
     todos
