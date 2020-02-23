@@ -7,9 +7,9 @@ import {AddButton} from "../components/iconButtons/iconButtons";
 import {getData, postData} from "./helpers";
 import {connect} from "react-redux";
 import {getTodos, loading, newTodo, removeToDo, updateTodo} from "../redux/actions";
-import {store} from "../redux/store";
 import Spinner from "../spiner/spinner";
-
+import {TransitionGroup, CSSTransition} from "react-transition-group"
+import "./homepage.scss"
 
 function HomePage(props) {
     const [updatedToDo, setUpdatedToDo] = useState("");
@@ -17,8 +17,8 @@ function HomePage(props) {
     useEffect(() => {
         getData().then(data => {
             props.getTodos(data);
-            console.log(props.toDos);
         })
+        // eslint-disable-next-line
     }, []);
 
     const onAddBtnHandleClick = () => {
@@ -57,6 +57,7 @@ function HomePage(props) {
             fetch(toDosUrl, putMethod)
                 .then(res => res.json())
                 .then(data => {
+                    props.onUpdate(id, updatedToDo)
                     // setToDos(data)
                 })
                 .catch(e => console.log(e))
@@ -69,7 +70,6 @@ function HomePage(props) {
 
     const updateToDoField = useCallback((v) => {
         setUpdatedToDo(v);
-
     }, []);
 
     return (
@@ -84,27 +84,35 @@ function HomePage(props) {
                 </div>
             </Grid>
             <Grid item xs={12}>
-                <ToDoList>
+                <TransitionGroup component={ToDoList}>
                     {(Array.isArray(props.toDos.toDos) && props.toDos.toDos.length > 0)
                         ?
                         props.toDos.toDos.map((el, index) => {
                             return (
-                                <ToDoItem key={index}
-                                          isList={true}
-                                          toDoId={el._id}
-                                          onEditToDoFieldHandleChange={updateToDoField}
-                                          handleDeleteBtnClick={handleDeleteBtnClick}
-                                          handleSaveBtnClick={handleSaveBtnClick}>
-                                    {el.title}
-                                </ToDoItem>
+                                <CSSTransition
+                                    classNames={"todo"}
+                                    key={index}
+                                    timeout={800}>
+                                    <ToDoItem
+                                        isList={true}
+                                        toDoId={el._id}
+                                        onEditToDoFieldHandleChange={updateToDoField}
+                                        handleDeleteBtnClick={handleDeleteBtnClick}
+                                        handleSaveBtnClick={handleSaveBtnClick}>
+                                        {el.title}
+                                    </ToDoItem>
+                                </CSSTransition>
                             )
                         })
                         :
-                        <ToDoItem isList={false}>
-                            No todos to show
-                        </ToDoItem>
+                        <CSSTransition
+                            timeout={750}>
+                            <ToDoItem isList={false}>
+                                No todos to show
+                            </ToDoItem>
+                        </CSSTransition>
                     }
-                </ToDoList>
+                </TransitionGroup>
             </Grid>
             {props.toDos.loading && <Spinner/>}
         </>
@@ -132,8 +140,8 @@ function mapDispatchToProps(dispatch) {
         onRemove: (toDoId) => {
             dispatch(removeToDo(toDoId))
         },
-        onUpdate: (toDoId) => {
-            dispatch(updateTodo(toDoId))
+        onUpdate: (toDoId, title) => {
+            dispatch(updateTodo(toDoId, title))
         }
     }
 }

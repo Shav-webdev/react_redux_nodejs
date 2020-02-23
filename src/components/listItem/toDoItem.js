@@ -3,6 +3,7 @@ import {ListItem, ListItemSecondaryAction, ListItemText, makeStyles} from "@mate
 import {SaveToDoBtn, DeleteToDoBtn, EditToDoBtn, BackToToDoBtn} from "../iconButtons/iconButtons"
 import UpdateToDoField from "../newToDoInputFild/updateToDoField";
 
+
 const useStyles = makeStyles({
     list: {
         position: "relative",
@@ -30,7 +31,6 @@ export default function ToDoItem(props) {
     const onSaveBtnClick = (id) => {
         props.handleSaveBtnClick(id);
         setIsShown(false);
-
     };
 
     const onBackBtnClick = () => {
@@ -44,7 +44,6 @@ export default function ToDoItem(props) {
         } else {
             setIsSaveBtnDisabled(true);
         }
-
     };
 
 

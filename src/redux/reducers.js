@@ -51,8 +51,18 @@ function todos(state = initialState, action) {
                 ...state,
                 loading: action.bool,
             };
-        // case UPDATE_TODO:
-        //     return state;
+        case UPDATE_TODO:
+            console.log(action.toDoId, action.title);
+            let toDos = [...state.toDos.map(el => {
+                if (el._id === action.toDoId) {
+                    console.log(el);
+                    el.title = action.title;
+                    return state.toDos;
+                }})]
+            return {
+                ...toDos,
+                loading: false
+            };
         default:
             return state;
     }

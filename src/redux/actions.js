@@ -20,8 +20,8 @@ export function removeToDo(toDoId) {
     return { type: REMOVE_TODO, toDoId }
 }
 
-export function updateTodo(toDoId) {
-    return { type: UPDATE_TODO, toDoId }
+export function updateTodo(toDoId, title) {
+    return { type: UPDATE_TODO, toDoId, title }
 }
 
 export function setVisibilityFilter(filter) {
